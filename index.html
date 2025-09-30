@@ -3,41 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Sitio Web</title>
+    <title>Página de Felipe</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #007acc;
+            --secondary: #ff3860;
+            --dark: #1a1a1a;
+            --darker: #2d2d2d;
+            --light: #f5f5f5;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
         }
-        .menu {
+        
+        .top-menu {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 15px 5%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .btn {
-            padding: 15px 30px;
-            background-color: #007acc;
+            
+        .pag-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .pag-links a {
             color: white;
             text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .btn:hover {
-            background-color: #005a9e;
+        
+        .pag-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+        }
+        
+        .pag-links a.active {
+            background-color: var(--primary);
+        }
+        
+        .home-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .home-link:hover, .home-link.active {
+            background-color: var(--primary) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+        }
+        
+        .home-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .home-link:hover .home-img, .home-link.active .home-img {
+            border-color: white;
+            transform: scale(1.1);
+        }
+        
+        .seccion-tag {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .contenido-principal {
+            padding: 40px 5%;
+            background-color: var(--dark);
+            min-height: calc(100vh - 80px);
+        }
+        
+        .seccion-bienvenida {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 50px 30px;
+            background: linear-gradient(135deg, #2d2d2d, #3a3a3a);
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .seccion-bienvenida::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .img-principal {
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            display: block;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: transform 0.5s ease;
+        }
+        
+        .img-principal:hover {
+            transform: scale(1.05);
+        }
+        
+        .secciones-principales {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .seccion-principal {
+            background: linear-gradient(145deg, #2d2d2d, #252525);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .seccion-principal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .seccion-principal:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        
+        .seccion-principal h3 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .seccion-principal p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .button {
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .pie-pagina {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 20px 5%;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .top-menu {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .pag-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .contenido-principal {
+                padding: 20px;
+            }
+            
+            .seccion-bienvenida {
+                padding: 30px 15px;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
         }
     </style>
 </head>
 <body>
-    <h1>¡Bienvenido a Mi Sitio Web!</h1>
-    <p>Elige una sección para visitar:</p>
-    
-    <div class="menu">
-        <a href="album.html" class="btn">Álbum</a>
-        <a href="musica.html" class="btn">Música</a>
+    <div class="top-menu">
+        <div class="seccion-tag">
+            <div class="pag-links">
+                <a href="index.html" class="home-link active" id="homeLink">
+                    <img src="https://i.ibb.co/Z1x0QpDD/feli-yjack.jpg" 
+                         alt="Felipe" 
+                         class="home-img">
+                    <span>Inicio</span>
+                </a>
+                <a href="album.html">
+                    <i class="fas fa-images"></i>
+                    <span>Álbum</span>
+                </a>
+                <a href="musica.html">
+                    <i class="fas fa-music"></i>
+                    <span>Música</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="seccion-tag">
+            <span class="has-text-light" style="font-weight: bold;">Diseño de Página de Felipe</span>
+            <span class="has-text-light" style="font-weight: bold;">2025</span>
+        </div>
     </div>
+
+    <div class="contenido-principal">
+        <div class="seccion-bienvenida fade-in">
+            <img src="https://i.ibb.co/Z1x0QpDD/feli-yjack.jpg" 
+                 alt="Felipe" 
+                 class="img-principal"
+                 width="150" 
+                 height="150">
+            <h1 class="title is-1 has-text-white">¡Bienvenido a Mi Sitio Web!</h1>
+            <p class="subtitle has-text-light">Explora mis secciones de música y álbumes desde el menú superior</p>
+        </div>
+
+        <div class="secciones-principales">
+            <div class="seccion-principal fade-in delay-1">
+                <h3 class="title is-3 has-text-danger">
+                    <i class="fas fa-music"></i> Música
+                </h3>
+                <p>Descubre mis artistas y canciones favoritas como Avicii, OneRepublic y muchos más. Explora mis playlists y géneros preferidos.</p>
+                <a href="musica.html" class="button is-link is-medium">
+                    Ver Música
+                </a>
+            </div>
+            
+            <div class="seccion-principal fade-in delay-2">
+                <h3 class="title is-3 has-text-danger">
+                    <i class="fas fa-images"></i> Álbum
+                </h3>
+                <p>Responde las preguntas para desbloquear las fotos. Una experiencia interactiva para conocer más sobre mis gustos e intereses.</p>
+                <a href="album.html" class="button is-link is-medium">
+                    Ver Álbum
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="pie-pagina">
+        <div class="content has-text-centered">
+            <p>
+                <strong class="has-text-light">Sitio Web de Felipe</strong>
+            </p>
+            <p class="has-text-light mt-2">
+                <small>© 2025 Todos los derechos reservados</small>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const homeLink = document.getElementById('homeLink');
+            
+            homeLink.addEventListener('click', function() {
+                document.querySelectorAll('.pag-links a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                homeLink.classList.add('active');
+            });
+            
+            const currentPage = window.location.pathname.split('/').pop();
+            if (currentPage === 'index.html' || currentPage === '') {
+                homeLink.classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>
