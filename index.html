@@ -1,388 +1,351 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>Juego de Figuritas</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-  <style>
-    body {
-      font-family: "Poppins", Arial, sans-serif;
-      background: #000;
-      margin: 0;
-      padding: 0;
-      color: #ff1a1a;
-    }
-    h1 {
-     color: red;
-     text-shadow: 0 0 10px red, 0 0 20px darkred;
-     margin: 30px auto;
-     text-align: center; 
-     font-size: 3em;        
-     font-weight: bold;
-    }
-    .seccion h2 {
-     font-size: 26px;    
-     text-align: center;  
-     font-weight: bold;     
-     color: #ff1a1a;
-     text-shadow: 0 0 8px #ff3333, 0 0 15px #b30000;
-     margin: 12px 0;
-    }
-    .seccion {
-     background: #111;
-     border: 2px solid #ff1a1a;
-     border-radius: 0; 
-     margin: 0;      
-     padding: 10px;  
-     box-shadow: none;
-    }
-    .seccion img {
-      border-radius: 10px;
-      margin: 10px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 2px solid #ff1a1a;
-    }
-    .seccion img:hover {
-      transform: scale(1.08);
-      box-shadow: 0 0 15px #ff3333;
-    }
-    .imagen-album {
-      display: flex;
-      justify-content: center;
-      margin: 20px 0;
-    }
-    .imagen-album img {
-     width: 350px; 
-     border: 2px solid #ff1a1a;
-     border-radius: 12px;
-     box-shadow: 0 0 15px #ff3333;
-     transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .imagen-album img:hover {
-     transform: scale(1.05);
-     box-shadow: 0 0 25px #ff1a1a;
-    }
-    .figuritas img {
-      width: 220px;
-      height: 220px;
-      object-fit: cover;
-      border: 2px solid #ff1a1a;
-      border-radius: 12px;
-      display: none;
-      background: #111;
-    }
-    p[id^="textoPregunta"] {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-      color: #ff4d4d;
-    }
-    .pista {
-     font-weight: bold;     
-     font-size: 22px;       
-     color: white;       
-     margin-top: 5px;       
-     display: block;     
-    } 
-    input {
-      width: 80%;
-      padding: 5px;
-      margin-bottom: 10px;
-      border: 1px solid red;
-      background: black;
-      color: red;
-      font-size: 20px;
-    }
-    button {
-      padding: 10px 15px;
-      background: #ff1a1a;
-      color: black;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-left: 10px;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-    button:hover {
-      background: #ff3333;
-      transform: scale(1.05);
-    }
-    .container {
-      display: flex;
-      justify-content: center;
-      gap: 0px; 
-      flex-wrap: wrap; 
-    }
-    .card {
-      background-color: #111;
-      border: 2px solid #ff1a1a;
-      border-radius: 12px;
-      padding: 10px;
-      margin: 0;
-      flex: 1 1 auto;
-      max-width: 250px;
-      box-shadow: 0 0 15px #ff1a1a;
-    }
-    .foto-seccion {
-     width: 100%;
-     height: 200px;         
-     object-fit: cover;     
-     border-radius: 6px;
-     margin-bottom: 10px;
-     border: 1px solid red;
-    }
-    .card h2 {
-      font-size: 18px;
-      margin: 5px 0;
-      color: red;
-    }
-    .card p {
-      font-size: 14px;
-      margin: 10px 0;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0; 
-      margin: 0;
-      padding: 0;
-    }
-    .card {
-      margin: 0;       
-      border: 2px solid #ff1a1a;
-      border-radius: 0;  
-    }
-    .final-epico {
-      text-align: center;
-      font-size: 2em;
-      font-weight: bold;
-      color: #ff1a1a;
-      text-shadow: 0 0 20px #ff0000, 0 0 40px #b30000, 0 0 60px #ff1a1a;
-      animation: brillar 1.5s infinite alternate;
-    }
-    #felicidades {
-     display: none;
-     text-align: center;
-     margin: 24px auto;
-     background: rgba(20,20,20,0.95);
-     border: 2px solid #ff1a1a;
-     border-radius: 12px;
-     padding: 20px 30px;
-     width: fit-content;
-     box-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
-     font-size: 2.5em;
-     font-weight: bold;
-     color: #ff1a1a;
-     text-shadow: 0 0 20px #ff0000, 0 0 40px #b30000, 0 0 60px #ff1a1a;
-     animation: brillar 1.5s infinite alternate;
-    }
-    .globo {
-     position: fixed;
-     bottom: -50px;
-     font-size: 2rem;
-     animation: subir 6s linear forwards;
-     z-index: 9999;
-     pointer-events: none; 
-    }
-    @keyframes fondoRGB {
-      0%   { background: rgb(255,0,0); }
-      25%  { background: rgb(0,255,0); }
-      50%  { background: rgb(0,0,255); }
-      75%  { background: rgb(255,255,0); }
-      100% { background: rgb(255,0,255); }
-    }
-    @keyframes subir {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-    }
-    @keyframes brillar {
-      from { text-shadow: 0 0 10px #ff1a1a, 0 0 20px #b30000; }
-      to   { text-shadow: 0 0 30px #ff3333, 0 0 50px #ff1a1a; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Felipe</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #007acc;
+            --secondary: #ff3860;
+            --dark: #1a1a1a;
+            --darker: #2d2d2d;
+            --light: #f5f5f5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+        }
+        
+        .top-menu {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 15px 5%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+            
+        .pag-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .pag-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pag-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+        }
+        
+        .pag-links a.active {
+            background-color: var(--primary);
+        }
+        
+        .home-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .home-link:hover, .home-link.active {
+            background-color: var(--primary) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+        }
+        
+        .home-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .home-link:hover .home-img, .home-link.active .home-img {
+            border-color: white;
+            transform: scale(1.1);
+        }
+        
+        .seccion-tag {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .contenido-principal {
+            padding: 40px 5%;
+            background-color: var(--dark);
+            min-height: calc(100vh - 80px);
+        }
+        
+        .seccion-bienvenida {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 50px 30px;
+            background: linear-gradient(135deg, #2d2d2d, #3a3a3a);
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .seccion-bienvenida::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .img-principal {
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            display: block;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: transform 0.5s ease;
+        }
+        
+        .img-principal:hover {
+            transform: scale(1.05);
+        }
+        
+        .secciones-principales {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .seccion-principal {
+            background: linear-gradient(145deg, #2d2d2d, #252525);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .seccion-principal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .seccion-principal:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        
+        .seccion-principal h3 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .seccion-principal p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .button {
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .pie-pagina {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 20px 5%;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .top-menu {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .pag-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .contenido-principal {
+                padding: 20px;
+            }
+            
+            .seccion-bienvenida {
+                padding: 30px 15px;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+    </style>
 </head>
 <body>
-  <h1>📖 Álbum de Figuritas</h1>
-  <div class="imagen-album">
-  <img src="https://iili.io/KHmlpWv.jpg" alt="Portada">
-  </div>
-  <div class="grid">
-    <div class="seccion">
-      <h2>Chosica</h2>
-      <img class="foto-seccion" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1k2WsgwkKFXm_KEtouZG5v0JLA96t09ZlWg&s" alt="Chosica">
-      <div id="preguntaChosica">
-        <p id="textoPreguntaChosica"></p>
-        <input type="text" id="respuestaChosica" placeholder="Respuesta">
-        <button onclick="verificarMultiple('Chosica')">Responder</button>
-        <p id="pistaChosica" class="pista"></p>
-      </div>
-      <div id="paqueteChosica" class="figuritas">
-        <img id="figChosica1" src="https://scontent.faep24-2.fna.fbcdn.net/v/t39.30808-6/514398699_30621271304155477_3913078184587024899_n.jpg?stp=c0.53.480.480a_dst-jpg_s206x206_tt6&_nc_cat=108&ccb=1-7&_nc_sid=50ad20&_nc_eui2=AeFUhppLaFwuhBZFY9OgspBR3KxaY0IydvTcrFpjQjJ29L5QUOKjx_luogHf0IdJydZFmwdfxFy5AVTd-HTvakSA&_nc_ohc=tbZ9q6aeje4Q7kNvwGO2sA_&_nc_oc=Admt5AEC9urP9Cy5_9r0kkCM8_kJB5pF72SpfuNZIUJe6JNk5HjEQw3W5zRaQllvfzA&_nc_zt=23&_nc_ht=scontent.faep24-2.fna&_nc_gid=cK0Zw-dcTZQtiLYgkz3whw&oh=00_AfXUPuRHNM7tM3KFZGd6U-k7NnH7FkdGDg3eitOHRXPfoQ&oe=68B02FEC">
-        <img id="figChosica2" src="https://scontent.faep24-1.fna.fbcdn.net/v/t39.30808-6/508561761_30410120018603941_4763301887344045938_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH3fzgKsAJXOz3xMFku-50tlhN6QaEnqH-WE3pBoSeof7hEAZ-CCXyffT8ldZRg_eFyHZCnk26PmaFRJgV61iSk&_nc_ohc=RZzSanU4G60Q7kNvwEyvkQj&_nc_oc=Adk7zM_IertG866Ovoq3Ml0OX61aeDhrlLghp4qkUdCfrRUBsm3xUKXO1E31Ly2z5P8&_nc_zt=23&_nc_ht=scontent.faep24-1.fna&_nc_gid=3qyk9FPPzWET0hOCbtef1Q&oh=00_AfU6a_xDTntt575bhM4WKtbvrRDvxI2RZ3B18Wtwvrl-wA&oe=68B06E6E">
-        <img id="figChosica3" src="https://scontent.ffdo24-3.fna.fbcdn.net/v/t39.30808-6/510511521_30491078313841444_7701307958358957238_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF-VoaPSkRkkZJ78U5dwYbOZRKeH9Os7J1lEp4f06zsnQCklhpYr8PtqZM9wA-hX-k5aXOP9R7l_8avgvKRQxj2&_nc_ohc=L7WU3k1oSRgQ7kNvwF05q6G&_nc_oc=Adm3A7ecmQT58CvpQRDwF_Uc1lhWb5HH258p_c3kZfNJ0LXqEgNfcsi7lQ4SIzYE8LI&_nc_zt=23&_nc_ht=scontent.ffdo24-3.fna&_nc_gid=RKMsMkAazXS0u2KgLZv_DQ&oh=00_AfUoGJ3ku20-UdHfl7tshfBDjnlxCFIlxB6FhTNNqSK0zw&oe=68B0654E">
-      </div>
+    <div class="top-menu">
+        <div class="seccion-tag">
+            <div class="pag-links">
+                <a href="index.html" class="home-link active" id="homeLink">
+                    <img src="https://i.ibb.co/Z1x0QpDD/feli-yjack.jpg" 
+                         alt="Felipe" 
+                         class="home-img">
+                    <span>Inicio</span>
+                </a>
+                <a href="album.html">
+                    <i class="fas fa-images"></i>
+                    <span>Álbum</span>
+                </a>
+                <a href="musica.html">
+                    <i class="fas fa-music"></i>
+                    <span>Música</span>
+                </a>
+                <a href="pokémon.html">
+                    <i class="fas fa-bolt"></i>
+                    <span>Pokémon</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="seccion-tag">
+            <span class="has-text-light" style="font-weight: bold;">Diseño de Página de Felipe</span>
+            <span class="has-text-light" style="font-weight: bold;">2025</span>
+        </div>
     </div>
-    <div class="seccion">
-      <h2>Nietas</h2>
-      <img class="foto-seccion" src="https://scontent.faep24-2.fna.fbcdn.net/v/t39.30808-6/508327738_30423202887295654_5017228212368407141_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEW-DsFOzDy5JvW-cR0_ojzeHsfq9o8JUN4ex-r2jwlQ8VUtZfimDFeTxuuoWqHVt0UdSqKU5fuy5DP9iGifzCD&_nc_ohc=fk4Tl3h8Z3YQ7kNvwFXn1dK&_nc_oc=AdlMw455vpGRosXckeyKZcPuxK3Dj9I6YWl4ivk0GMsRkIzMccp_ub5eGry4j1md228&_nc_zt=23&_nc_ht=scontent.faep24-2.fna&_nc_gid=Dcu4_mVzfy9fo7BPaejnbA&oh=00_AfXOcQjOycAru4sos7uCYNeD1ECgN7OfbELykGbzEfhgTQ&oe=68B09665" alt="Nietas">
-      <div id="preguntaNietas">
-        <p id="textoPreguntaNietas"></p>
-        <input type="text" id="respuestaNietas" placeholder="Respuesta">
-        <button onclick="verificarMultiple('Nietas')">Responder</button>
-        <p id="pistaNietas" class="pista"></p>
-      </div>
-      <div id="paqueteNietas" class="figuritas">
-        <img id="figNietas1" src="https://i.ibb.co/0pB2QBcz/IMG-20240229-WA0055.jpg">
-        <img id="figNietas2" src="https://i.ibb.co/B2bKxgtT/IMG-20240229-WA0025.jpg">
-        <img id="figNietas3" src="https://scontent.ffdo24-3.fna.fbcdn.net/v/t39.30808-6/507733446_30423202787295664_7578593167564716801_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEv7KxU2R7yMV4yHPnF1hPAuwwMFKtilxe7DAwUq2KXFy8-tIO9-obCLCxMBnAjAT1DkpjnRG9VLJn22eD_P3Rf&_nc_ohc=Y2JCIIb4d8QQ7kNvwHj--T5&_nc_oc=AdmxpKOSDa5CCdTKu4oOxgELKGmfiKBRMpzr0UFGzo1FjHhAGhIZUxbZmS6WCPvS_bc&_nc_zt=23&_nc_ht=scontent.ffdo24-3.fna&_nc_gid=2Yo4tbPtPMhl_Vtt5nnWNA&oh=00_AfX8TA43ZEdi-qy-9obqDfBu5e3BVcgiqWOQbe9sF4tSbw&oe=68B05C2F">
-      </div>
+
+    <div class="contenido-principal">
+        <div class="seccion-bienvenida fade-in">
+            <img src="https://i.ibb.co/Z1x0QpDD/feli-yjack.jpg" 
+                 alt="Felipe" 
+                 class="img-principal"
+                 width="150" 
+                 height="150">
+            <h1 class="title is-1 has-text-white">¡Bienvenido a Mi Sitio Web!</h1>
+            <p class="subtitle has-text-light">Explora mis secciones de música y álbumes desde el menú superior</p>
+        </div>
+
+        <div class="secciones-principales">
+            <div class="seccion-principal fade-in delay-1">
+                <h3 class="title is-3 has-text-danger">
+                    <i class="fas fa-music"></i> Música
+                </h3>
+                <p>Mis artistas y canciones favoritas como Avicii, OneRepublic y muchos más. Explora mis playlists y géneros preferidos.</p>
+                <a href="musica.html" class="button is-link is-medium">
+                    Ver Música
+                </a>
+            </div>
+            
+            <div class="seccion-principal fade-in delay-2">
+                <h3 class="title is-3 has-text-danger">
+                    <i class="fas fa-images"></i> Álbum
+                </h3>
+                <p>Responde las preguntas para desbloquear las fotos. Una experiencia interactiva para conocer más sobre mis gustos e intereses.</p>
+                <a href="album.html" class="button is-link is-medium">
+                    Ver Álbum
+                </a>
+            </div>
+
+            <div class="seccion-principal fade-in delay-3">
+                <h3 class="title is-3 has-text-danger">
+                    <i class="fas fa-bolt"></i> Pokémon
+                </h3>
+                <p>Juego iterativo de encontrar el pokémon.</p>
+                <a href="pokemon.html" class="button is-link is-medium">
+                    Ver Pokémon
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="seccion">
-      <h2>Rímac</h2>
-      <img class="foto-seccion" src="https://upload.wikimedia.org/wikipedia/commons/0/0a/District_sign_Peru_Lima_R%C3%ADmac.jpg" alt="Rimac">
-      <div id="preguntaRimac">
-        <p id="textoPreguntaRimac"></p>
-        <input type="text" id="respuestaRimac" placeholder="Respuesta">
-        <button onclick="verificarMultiple('Rimac')">Responder</button>
-        <p id="pistaRimac" class="pista"></p>
-      </div>
-      <div id="paqueteRimac" class="figuritas">
-        <img id="figRimac1" src="https://scontent.faep24-1.fna.fbcdn.net/v/t39.30808-6/507701195_30384500747832535_860828868525330996_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=cf85f3&_nc_eui2=AeEDW7122wS5letcXl3TNvoPHl8JN0H853seXwk3QfznexTepNArpKIccm8z2V4lftr8DcQPgwwRnAku97bgffCb&_nc_ohc=1CHKKmnI6jsQ7kNvwGfDUvQ&_nc_oc=Adm-Pd5D95VxNsh3IrckBTjeNJ-NstOHAcY7EbJQuLYZsDZ9-Q6CkZmvK3tQa2IZtOc&_nc_zt=23&_nc_ht=scontent.faep24-1.fna&_nc_gid=JJT8pdzSW7XzFpNG4Bs_Ag&oh=00_AfWi21DxyMgASlWbHuSOgJPHwWCEJkhlRJnw6cqsyCLC-Q&oe=68B04435">
-        <img id="figRimac2" src="https://scontent.faep24-2.fna.fbcdn.net/v/t39.30808-6/507652526_30392222697060340_270624416122670027_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=aa7094&_nc_eui2=AeGpohPaOwVDZzyASt1KdybEKGKXnrucX0AoYpeeu5xfQOFu6NFnzP_AVCMsuQX3znwUPdTS4uwVv29Gndq4e_1N&_nc_ohc=R64cTZhmAnkQ7kNvwGmecc9&_nc_oc=Admoq3vxwM6PnOOIHHjy6jqfkY5FR3IAi6FaSfegbRRlfrJ9MvwpEbN-HFweyPgDaXs&_nc_zt=23&_nc_ht=scontent.faep24-2.fna&_nc_gid=aKsNnSMYaj1yNg58v1dpmg&oh=00_AfXplGk8tRzBRLRSWt3KryyBbnNgYf9L4FR5TLW4utE7fQ&oe=68B0764F">
-        <img id="figRimac3" src="https://scontent.faep24-1.fna.fbcdn.net/v/t39.30808-6/501575873_24591230040469422_3864557804728933854_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=cf85f3&_nc_eui2=AeE_Iy6tzYbh-WwGfhE4LkJQ_Uhak6i_kzz9SFqTqL-TPJQQGhhF3ZM_HntaEdmQoCo90LAJH43Lf_ukmvyN9yHc&_nc_ohc=eT7AvXLKDeIQ7kNvwHAs_ma&_nc_oc=Adnp1GEuFIBhe3vfU3AB769JaEIn4eUV0VsGSE-ZRTOGG2MCu6qyvh-SFcIKoaHV2_Q&_nc_zt=23&_nc_ht=scontent.faep24-1.fna&_nc_gid=LviFlhi79RwT1kBa3SATKw&oh=00_AfVAz3nRqGDKujz1360_bOB-WXNySajrMWFPDfGlpgrGWw&oe=68B05997">
-      </div>
-    </div>
-    <div class="seccion">
-      <h2>Playa</h2>
-      <img class="foto-seccion" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkcYriLnWBu3pMpG1NHKMpT2YncXJI1rdEaQ&s" alt="Playa">
-      <div id="preguntaPlaya">
-        <p id="textoPreguntaPlaya"></p>
-        <input type="text" id="respuestaPlaya" placeholder="Respuesta">
-        <button onclick="verificarMultiple('Playa')">Responder</button>
-        <p id="pistaPlaya" class="pista"></p>
-      </div>
-      <div id="paquetePlaya" class="figuritas">
-        <img id="figPlaya1" src="https://scontent.ffdo24-3.fna.fbcdn.net/v/t39.30808-6/513509667_30541883162094292_7640672051447386588_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHfuOh6KsvfscSOjV9kEtI8HjjIcwFtZEAeOMhzAW1kQPVLl6kZq_j9tP18K8Q2Fk93I3427JPWrbnt3d-Q94LY&_nc_ohc=ilcZ5wTgpFUQ7kNvwGYyoNj&_nc_oc=Adk7QSm1JPVVOUaKS2ePb3KkoU9C4qe8kD9GFDh2uSMeGxa02ijyNjvYOnapo4RS58M&_nc_zt=23&_nc_ht=scontent.ffdo24-3.fna&_nc_gid=Oe-cj4eJXziuLkCsbDDmkQ&oh=00_AfWIHsQwMrmjjdxoosHBn3cPVJMiMeMYfioDuI6znX05SA&oe=68B07BAA">
-        <img id="figPlaya2" src="https://scontent.faep24-2.fna.fbcdn.net/v/t39.30808-6/508718669_30452379967711279_8283517340207266418_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeF9YeEiJtZyzxyqGh3KnY5eGZObz4lKuwEZk5vPiUq7Aeb4PCrQZRcCwG_nrQP99xJg93mlrJbhFeaggR4c6xvx&_nc_ohc=Q0QVJkUH3m0Q7kNvwEVUKF1&_nc_oc=AdmWZCwQqtsUgQ6hzqVnGCnHnyyW9wP5RhpUDl5Z2gXt6OGH-VZims1EbAAG00EYMGk&_nc_zt=23&_nc_ht=scontent.faep24-2.fna&_nc_gid=QcFrA_VcTa5zYtHO6WLKAA&oh=00_AfWG5N6rDmIS9HeYsudVgRVA2TZpvunFi2bL3jyiBUxdng&oe=68B064A6">
-        <img id="figPlaya3" src="https://scontent.faep24-1.fna.fbcdn.net/v/t39.30808-6/514338078_30576424678640140_5443478439985630583_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGCsgiEnj2MOHFxCkDNQw2SvLfCQEt8ejG8t8JAS3x6MTIvbNUAXXwG0b7AfNzwPekpmSb_7ZXK_PTs9nCvWYKN&_nc_ohc=8qtq89SFL74Q7kNvwFWXN2b&_nc_oc=AdkUDQdO9nzwO9zyFTTB2J8KSbvApTcQZHmxu_zsl91ukR0LSKM5uKtm3f_OTdgwaZM&_nc_zt=23&_nc_ht=scontent.faep24-1.fna&_nc_gid=_NHdQhGCgQy54jKrxv9cwQ&oh=00_AfUxDAehC1DKVlPVCZ-PJEkOQhxbhF2LVme-PNAxNolI9A&oe=68B07478">
-      </div>
-    </div>
-    <div class="seccion">
-      <h2>Argentina</h2>
-      <img class="foto-seccion" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Buenos_Aires-2740f-Obelisco.jpg/800px-Buenos_Aires-2740f-Obelisco.jpg" alt="Argentina">
-      <div id="preguntaArgentina">
-        <p id="textoPreguntaArgentina"></p>
-        <input type="text" id="respuestaArgentina" placeholder="Respuesta">
-        <button onclick="verificarMultiple('Argentina')">Responder</button>
-        <p id="pistaArgentina" class="pista"></p>
-      </div>
-      <div id="paqueteArgentina" class="figuritas">
-        <img id="figArgentina1" src="https://i.ibb.co/QVN4sP3/IMG-20240229-WA0077.jpg">
-        <img id="figArgentina2" src="https://i.ibb.co/vvTZKtFr/IMG-20240229-WA0105.jpg">
-        <img id="figArgentina3" src="https://i.ibb.co/wFgfk9dm/IMG-20240229-WA0010.jpg">
-      </div>
-    </div>
-    <div class="seccion">
-      <h2>Boda</h2>
-      <img class="foto-seccion" src="data:image/jpeg;base64,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" alt="Chorrillos">
-      <div id="preguntaBoda">
-        <p id="textoPreguntaBoda"></p>
-        <input type="text" id="respuestaBoda" placeholder="Respuesta">
-        <button onclick="verificarMultiple('Boda')">Responder</button>
-        <p id="pistaBoda" class="pista"></p>
-      </div>
-      <div id="paqueteBoda" class="figuritas">
-        <img id="figBoda1" src="https://scontent.ffdo24-3.fna.fbcdn.net/v/t39.30808-6/508187625_30400544249561518_8360487935312390071_n.jpg?stp=c0.169.1536.1536a_dst-jpg_s206x206_tt6&_nc_cat=111&ccb=1-7&_nc_sid=50c75d&_nc_eui2=AeGr4NV3wOj5oVKvz2yGtUuZZBfAxwmtKOZkF8DHCa0o5uERfup_S-4yvVuKO5XpZni58cfkJf5Inpfj0teCmC7K&_nc_ohc=KVEqw0LQKJoQ7kNvwE3yrA8&_nc_oc=AdlrVH6uvKugDnQsTbOZMen4oiaoNLPYQix0ZYEC4RJrgXY3G5BUoCTrJeJkRlWn-2g&_nc_zt=23&_nc_ht=scontent.ffdo24-3.fna&_nc_gid=L5VrlKmCYJAjmZup4FKGrw&oh=00_AfUvV9pPVqEj4c8y8ghzksS8xhByEAY-uWGV-B14U9E5Lw&oe=68B03304">
-        <img id="figBoda2" src="https://scontent.faep24-1.fna.fbcdn.net/v/t39.30808-6/508601166_30400544269561516_2030992957421574167_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEC_1idWD60y2YkoWCEYd6uWu3C4U9IuK5a7cLhT0i4rmLm4FlsCoY1mEI7EaH_SN9dM7nf5mAvo5jiwi-yzrWz&_nc_ohc=oUrCtOKINhUQ7kNvwEutO45&_nc_oc=Adly3IOqebHj26qmoU02SmMrcyTCOrDicwbgKV28g-772YQhF4EAf9uTvez58uHNuNM&_nc_zt=23&_nc_ht=scontent.faep24-1.fna&_nc_gid=Bzn-VmlGWdeBaw-OTgKKIg&oh=00_AfWr4dd-pYxKo-6y8dJ6eUEfS1rSJoVqz4jKMkzwz401mQ&oe=68B07CF7">
-        <img id="figBoda3" src="https://scontent.ffdo24-3.fna.fbcdn.net/v/t39.30808-6/501337391_3973857862889399_6807674937806959781_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeEQKFEC95eBeX0oi0XRoegNoZyXNSDAN8GhnJc1IMA3wdTTfiImcMlLjE04LmQUEY_WhjvfHym5AL5QxvzUU_sS&_nc_ohc=rAlv3NxuNzIQ7kNvwGhW98E&_nc_oc=AdlmcUMNiKNuVZGTOE31E_rc-52cPK-A_b-PoUdR7IEdQn9YC2VKD4LchY1jqkXkONw&_nc_zt=23&_nc_ht=scontent.ffdo24-3.fna&_nc_gid=ePfw3l0CUoB15ZDbWBGwZQ&oh=00_AfWC9Bzi0_ygaLTP_buBUB1dbHPE-D57yepIkGom1s685Q&oe=68B082B9">
-      </div>
-    </div>
-  </div>
-  <div id="felicidades">🎉 Felicidades, llenaste el álbum 🎉</div>
-  <script>
-    let preguntas = {
-      Chosica: [
-        { texto: "Despues del mercadito a donde nos vamos a pasar la tarde?", respuesta: "club", pista: "c--b" },
-        { texto: "Que cosa Edgar compra para llevar a comer al club?", respuesta: "fruta", pista: "f---a" },
-        { texto: "De noche, ¿qué se suele comer?", respuesta: "pollo", pista: "p----" }
-      ],
-      Nietas: [
-        { texto: "Qué nieta rompio la puerta por tocar todas las mañanas?", respuesta: "abigail", pista: "a-----l" },
-        { texto: "Quién es la mas tranquila?", respuesta: "samara", pista: "s----a" },
-        { texto: "A que nieta le gustaba pepapig y el color rosado?", respuesta: "lulu", pista: "l--u" }
-      ],
-      Rimac: [
-        { texto: "Qué suele intercambiarse en casinelli en año nuevo?", respuesta: "regalos", pista: "r-----s" },
-        { texto: "Restaurante a donde se va a comer a plaza de armas?", respuesta: "arequipeño", pista: "a--------o" },
-        { texto: "¿Cuál es la comida bandera que comemos en navidad?", respuesta: "lechon", pista: "l-----" }
-      ],
-      Playa: [
-        { texto: "¿Qué comida suele pedirse en la playa?", respuesta: "ceviche", pista: "c-----e" },
-        { texto: "A que pizzeria por defecto siempre vamos?", respuesta: "raul", pista: "r---" },
-        { texto: "Dónde se compro la tv de la sala?", respuesta: "plaza norte", pista: "p---a n---e" }
-      ],
-      Argentina: [
-        { texto: "Quién preparó el asado (no original)?", respuesta: "samuel", pista: "s----l" },
-        { texto: "Qué animal hizo el mayor espectáculo del mundo marino?", respuesta: "orca", pista: "o--a" },
-        { texto: "El agua de la piscina generaba olas que nos hacía?", respuesta: "bailar", pista: "b----r" }
-      ],
-      Boda: [
-        { texto: "Cuantos años es para boda de plata?", respuesta: "25", pista: "2-" },
-        { texto: "En qué lugar se hizo la boda?", respuesta: "iglesia", pista: "i-----a" },
-        { texto: "A qué boda asistimos en argentina?", respuesta: "samuel", pista: "s----l" }
-      ]
-    };
-    let progreso = { Nietas:0, Chosica:0, Rimac:0, Playa:0, Argentina:0, Boda:0 };
-    let completadas = { Chosica:false, Nietas:false, Rimac:false, Playa:false, Argentina:false, Boda:false };
-    function mostrarPregunta(seccion) {
-      let p = preguntas[seccion][progreso[seccion]];
-      document.getElementById("textoPregunta"+seccion).innerText = p.texto;
-      document.getElementById("pista"+seccion).innerText = "Pista: " + p.pista;
-      document.getElementById("respuesta"+seccion).value = "";
-      document.getElementById("pista"+seccion).style.display = "none";
-    }
-    function verificarMultiple(seccion) {
-  let input = document.getElementById("respuesta" + seccion);
-  let respuesta = input.value.trim().toLowerCase();
-  let actual = preguntas[seccion][progreso[seccion]];
-  if (respuesta === actual.respuesta) {
-    progreso[seccion]++;
-    document.getElementById("fig" + seccion + progreso[seccion]).style.display = "inline";
-    if (progreso[seccion] < preguntas[seccion].length) {
-      mostrarPregunta(seccion);
-    } else {
-      document.getElementById("pregunta" + seccion).style.display = "none";
-      completadas[seccion] = true;
-      verificarAlbum(); 
-    }
-  } else {
-    document.getElementById("pista" + seccion).style.display = "block";
-    alert("No es la respuesta xD");
-  }
-}
-function verificarAlbum() {
-  if (Object.values(completadas).every(v => v)) {
-    lanzarCelebracion();
-  }
-}
-function lanzarCelebracion() {
-  document.getElementById("felicidades").style.display = "block";
-  document.body.style.animation = "fondoRGB 5s infinite alternate";
-  setInterval(() => {
-    let globo = document.createElement("div");
-    globo.className = "globo";
-    globo.innerText = "🎈";
-    globo.style.left = Math.random() * 100 + "vw";
-    globo.style.fontSize = (Math.random() * 20 + 20) + "px";   
-    globo.style.animationDuration = (4 + Math.random() * 3) + "s";
-    document.body.appendChild(globo);
-    setTimeout(() => globo.remove(), 8000);
-  }, 400);
-}
-document.addEventListener("DOMContentLoaded", () => {
-  for (let seccion in preguntas) {
-    mostrarPregunta(seccion);
-  }
-});
-  </script>
+    
+    <footer class="pie-pagina">
+        <div class="content has-text-centered">
+            <p>
+                <strong class="has-text-light">Sitio Web de Felipe</strong>
+            </p>
+            <p class="has-text-light mt-2">
+                <small>© 2025 Todos los derechos reservados</small>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const homeLink = document.getElementById('homeLink');
+            
+            homeLink.addEventListener('click', function() {
+                document.querySelectorAll('.pag-links a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                homeLink.classList.add('active');
+            });
+            
+            const currentPage = window.location.pathname.split('/').pop();
+            if (currentPage === 'index.html' || currentPage === '') {
+                homeLink.classList.add('active');
+            }
+        });
+    </script>
 </body>
-</html> 
+</html>

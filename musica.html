@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi biblioteca de musica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #007acc;
+            --secondary: #ff3860;
+            --dark: #1a1a1a;
+            --darker: #2d2d2d;
+            --light: #f5f5f5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+        }
+        
+        .top-menu {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 15px 5%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .menu-seccion {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+              
+        .pag-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .pag-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pag-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+        }
+
+        .home-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .home-link:hover, .home-link.active {
+            background-color: var(--primary) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+        }
+        
+        .home-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .home-link:hover .home-img, .home-link.active .home-img {
+            border-color: white;
+            transform: scale(1.1);
+        }
+        
+        .seccion-tag {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+    
+        .contenido-principal {
+            padding: 40px 5%;
+            background-color: var(--dark);
+            min-height: calc(100vh - 80px);
+        }
+        
+        .musica-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 50px 30px;
+            background: linear-gradient(135deg, #2d2d2d, #3a3a3a);
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .musica-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .img-principal {
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            display: block;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: transform 0.5s ease;
+        }
+        
+        .img-principal:hover {
+            transform: scale(1.05);
+        }
+        
+        .artistas-columnas {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .artista-columna {
+            background: linear-gradient(145deg, #2d2d2d, #252525);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .artista-columna::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .artista-columna:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        
+        .artista-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            margin: 0 auto 15px auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .artista-columna:hover .artista-img {
+            transform: scale(1.1);
+        }
+        
+        .musica-item {
+            background: linear-gradient(135deg, #3d3d3d, #353535);
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 10px;
+            text-align: left;
+            border-left: 4px solid var(--primary);
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .musica-item:hover {
+            background: linear-gradient(135deg, #454545, #3d3d3d);
+            transform: translateX(5px);
+        }
+        
+        .button {
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .pie-pagina {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 25px 5%;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        
+        @media (max-width: 1200px) {
+            .artistas-columnas {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .artistas-columnas {
+                grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 0 10px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 0 15px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .artistas-columnas {
+                grid-template-columns: 1fr;
+            }
+            
+            .top-menu {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .pag-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .contenido-principal {
+                padding: 20px;
+            }
+            
+            .musica-header {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-menu">
+        <div class="seccion-tag">
+            <div class="pag-links">
+                <a href="index.html" class="home-link active">
+                    <img src="https://i.ibb.co/Z1x0QpDD/feli-yjack.jpg"
+                         alt="Felipe"
+                         class="home-img">
+                    <span>Inicio</span>
+                </a>
+                <a href="album.html">
+                    <i class="fas fa-images"></i>
+                    <span>Álbum</span>
+                </a>
+                <a href="musica.html">
+                    <i class="fas fa-music"></i>
+                    <span>Música</span>
+                <a href="pokemon.html">
+                    <i class="fas fa-bolt"></i>
+                    <span>Pokémon</span>
+                </a>
+            </div>
+        </div>
+        <div class="seccion-tag">
+            <span class="has-text-light" style="font-weight: bold;">Diseño de Página de Felipe</span>
+            <span class="has-text-light" style="font-weight: bold;">2025</span>
+        </div>
+    </div>
+
+    <div class="contenido-principal">
+        <div class="musica-header fade-in">
+            <img src="https://i.ibb.co/Z1x0QpDD/feli-yjack.jpg" 
+                alt="Felipe" 
+                class="img-principal"
+                width="120" 
+                height="120">
+            <h1 class="title is-1 has-text-white">🎵 Mi biblioteca de música 🎵</h1>
+            <p class="subtitle has-text-light">Descubre mis artistas y canciones preferidas</p>
+        </div>
+
+        <div class="artistas-columnas">
+            <div class="artista-columna fade-in delay-1">
+                <img src="https://i.pinimg.com/200x/7a/0b/69/7a0b69a3adf344c097bfe19396124251.jpg" 
+                     alt="Avicii" 
+                     class="artista-img">
+                <h3 class="title is-3 has-text-danger">Avicii</h3>
+                <p class="has-text-light" style="font-size: 0.9em;">🎧🎧🎧</p>
+                
+                <div style="margin-top: 15px;">
+                    <div class="musica-item">
+                        <strong>Without You</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=fTYhYsG9e20" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>The Nights</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=UtF6Jej8yb4" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Waiting For Love</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=cHHLHGNpCSA" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Wake Me Up</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=IcrbM1l_BoI" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artista-columna fade-in delay-2">
+                <img src="https://i.pinimg.com/200x/e8/65/ff/e865ff23b8fa09949af42667cdc5227d.jpg" 
+                     alt="OneRepublic" 
+                     class="artista-img">
+                <h3 class="title is-3 has-text-danger">OneRepublic</h3>
+                <p class="has-text-light" style="font-size: 0.9em;">🎧🎧🎧</p>
+                
+                <div style="margin-top: 15px;">
+                    <div class="musica-item">
+                        <strong>Counting Stars</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=hT_nvWreIhg" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Nobody</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=ztROkFCJSeE" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Wherever I Go</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=OXWrjWDQh7Q" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Fire</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=C5B22ONbFrc" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artista-columna fade-in delay-3">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLvPQkzXo9hqPXu4NAbSQSP0_pwvKQ8lhE5A&s" 
+                     alt="Ofenbach" 
+                     class="artista-img">
+                <h3 class="title is-3 has-text-danger">Ofenbach</h3>
+                <p class="has-text-light" style="font-size: 0.9em;">🎧🎧🎧</p>
+                
+                <div style="margin-top: 15px;">
+                    <div class="musica-item">
+                        <strong>Be Mine</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=oNWOC_Pvo4w" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Katchi</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=Ycg5oOSdpPQ" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Canción 3</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="#" 
+                           target="_blank">🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Canción 4</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="#" 
+                           target="_blank">🎵</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artista-columna fade-in delay-1">
+                <img src="https://http2.mlstatic.com/D_NQ_NP_608059-MLA85607708843_062025-O.webp" 
+                     alt="Robin Schulz" 
+                     class="artista-img">
+                <h3 class="title is-3 has-text-danger">Robin Schulz</h3>
+                <p class="has-text-light" style="font-size: 0.9em;">🎧🎧🎧</p>
+                
+                <div style="margin-top: 15px;">
+                    <div class="musica-item">
+                        <strong>Sugar</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=bvC_0foemLY" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Prayer In C</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="#" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Canción 3</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="#" 
+                           target="_blank">🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Canción 4</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="#" 
+                           target="_blank">🎵</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="artistas-columnas">
+            <div class="artista-columna fade-in delay-2">
+                <img src="https://static.wikia.nocookie.net/electropedia/images/2/22/Kygo_2.jpg/revision/latest/scale-to-width/360?cb=20170414035526&path-prefix=es" 
+                     alt="Kygo" 
+                     class="artista-img">
+                <h3 class="title is-3 has-text-danger">Kygo</h3>
+                <p class="has-text-light" style="font-size: 0.9em;">🎧🎧🎧</p>
+                
+                <div style="margin-top: 15px;">
+                    <div class="musica-item">
+                        <strong>Firestone</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=9Sc-ir2UwGU" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Stole The Show</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=BgfcToAjfdc" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>It Ain't Me</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=u3VTKvdAuIY" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Canción 4</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="#" 
+                           target="_blank">🎵</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artista-columna fade-in delay-3">
+                <img src="https://cdn-images.dzcdn.net/images/cover/0e4b70f9985801a0acbcef1782bd18eb/0x1900-000000-80-0-0.jpg" 
+                     alt="The Black Eyed Peas" 
+                     class="artista-img">
+                <h3 class="title is-3 has-text-danger">The Black Eyed Peas</h3>
+                <p class="has-text-light" style="font-size: 0.9em;">🎧🎧🎧</p>
+                
+                <div style="margin-top: 15px;">
+                    <div class="musica-item">
+                        <strong>Rock That Body</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=nmnjL26OBcY" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Let's Get It Started</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=IKqV7DB8Iwg" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>I Gotta Feeling</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=uSD4vsh1zDA" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Canción 4</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="#" 
+                           target="_blank">🎵</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artista-columna fade-in delay-1">
+                <img src="https://venga-store.com/cdn/shop/articles/Tomorrowland_Outfits_904111b4-f7ba-4d8b-869a-a61d00f27cf1.jpg?v=1737632016" 
+                     alt="Tomorrowland" 
+                     class="artista-img">
+                <h3 class="title is-3 has-text-danger">Tomorrowland</h3>
+                <p class="has-text-light" style="font-size: 0.9em;">🎧🎧🎧</p>
+                
+                <div style="margin-top: 15px;">
+                    <div class="musica-item">
+                        <strong>Bangarang</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=YJVmu6yttiw" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Hello</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=kK42LZqO0wA" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Hear Me Now</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=JVpTp8IHdEg" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>More Than You Know</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=GsF05B8TFWg" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="artista-columna fade-in delay-2">
+                <img src="https://play-lh.googleusercontent.com/gEk_oto9HkP1s364yJTO5JgNzH4CkaGjtYUmTAYy597WLDJcno6JxNGD2kuGyv5ggbA=w240-h480-rw" 
+                     alt="Otros" 
+                     class="artista-img">
+                <h3 class="title is-3 has-text-danger">Otros</h3>
+                <p class="has-text-light" style="font-size: 0.9em;">🎧🎧🎧</p>
+                
+                <div style="margin-top: 15px;">
+                    <div class="musica-item">
+                        <strong>Feel It Still</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=pBkHHoOIIn8" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Riptide</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=uJ_1HMAGb4k" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Makeba</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=59Q_lhgGANc&list=RD59Q_lhgGANc&start_radio=1&rv=uJ_1HMAGb4k" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                    <div class="musica-item">
+                        <strong>Following The Sun</strong>
+                        <a class="button is-small is-link is-fullwidth mt-1" 
+                           href="https://www.youtube.com/watch?v=uZsY4S4ckMU&list=RD59Q_lhgGANc&index=12" 
+                           target="_blank">VIDEO 🎵</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="pie-pagina">
+        <div class="content has-text-centered">
+            <p>
+                <strong class="has-text-light">Sitio Web de Felipe</strong>
+            </p>
+            <p class="has-text-light mt-2">
+                <small>© 2025 Todos los derechos reservados</small>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
