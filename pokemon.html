@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 auto 30px auto;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px 40px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            max-width: none;
+            margin-left: 0px;
+            margin-right: 20px;
+            box-sizing: border-box;
+        }
+
+        .nav-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 14px 0px;
+            border-radius: 18px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            white-space: nowrap;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(5px);
+            width: 120px !important;
+            height: 50px !important;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .mi-foto {
+            width: 28px !important;
+            height: 28px !important;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .page-title {
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            white-space: nowrap;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            flex: 1;
+            text-align: right;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            border-bottom: 3px solid #ff6b6b;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .pokemon-list {
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .pokemon-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .pokemon-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .pokemon-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            border-radius: 4px;
+        }
+
+        #lista {
+            list-style: none;
+        }
+
+        #lista li {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
+            margin-bottom: 12px;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 5px solid #ff6b6b;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        #lista li:hover {
+            transform: translateX(8px);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(78, 205, 196, 0.2) 100%);
+        }
+
+        .pokemon-display {
+            text-align: center;
+            padding: 20px;
+        }
+
+        #imagenPokemon {
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255, 107, 107, 0.3);
+        }
+
+        #imagenPokemon:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .pokemon-info {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
+            border-radius: 15px;
+            font-weight: bold;
+            color: #333;
+            font-size: 18px;
+            border: 2px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .empty-state {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            font-size: 16px;
+        }
+
+        .pie-pagina {
+            width: 100%;
+            max-width: none;
+            margin-left: 0;
+            margin-right: 20px;
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .nav-bar {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-item {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+            
+            .page-title {
+                font-size: 1.4em;
+                text-align: center;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            input {
+                min-width: 100%;
+            }
+            
+            .mi-foto {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        .rgb-effect {
+            background: linear-gradient(135deg, 
+                #ff6b6b 0%, 
+                #ff8e8e 25%, 
+                #4ecdc4 50%, 
+                #6effff 75%, 
+                #ff6b6b 100%);
+            background-size: 400% 400%;
+            animation: rgbAnimation 8s ease infinite;
+        }
+
+        @keyframes rgbAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .rgb-border {
+            border: 3px solid;
+            border-image: linear-gradient(135deg, #ff6b6b, #4ecdc4, #ff6b6b) 1;
+            animation: borderRGB 6s linear infinite;
+        }
+
+        @keyframes borderRGB {
+            0% { border-image-source: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7af); }
+            50% { border-image-source: linear-gradient(135deg, #4ecdc4, #ff6b6b, #4ecdc4); }
+            100% { border-image-source: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7af); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="nav-bar">
+            <a href="index.html" class="nav-item">
+                <img src="https://i.ibb.co/Z1x0QpDD/feli-yjack.jpg" alt="Felipe" class="mi-foto">
+                    Inicio
+            </a>
+            <a href="album.html" class="nav-item">📷 Álbum</a>
+            <a href="musica.html" class="nav-item">🎵 Música</a>
+            <a href="pokemon.html" class="nav-item">⚡ Pokémon</a>
+        </div>
+        <h1 class="page-title">Diseño de Página de Felipe &nbsp;  2025</h1>
+    </div>
+    <div class="container">
+        <div class="content-grid">
+            <div class="card search-card rgb-border">
+                <h2>🔍 Buscar Pokémon</h2>
+                <div class="input-group">
+                    <input type="number" id="entrada" placeholder="Ingresa el número del Pokémon (1-1010)" min="1" max="1010">
+                    <button id="agregar" class="rgb-effect">Buscar Pokémon</button>
+                </div>
+                <p style="color: #666; text-align: center; margin-top: 15px; font-style: italic;">
+                    Ejemplo: 25 para Pikachu, 6 para Charizard, 150 para Mewtwo
+                </p>
+    </div>
+
+            <div class="card rgb-border">
+                <h2>📋 Pokémones Buscados</h2>
+                <div class="pokemon-list">
+                    <ul id="lista">
+                        <li class="empty-state">Aquí aparecerán los Pokémones que busques</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card rgb-border">
+                <h2>👀 Vista Previa</h2>
+                <div class="pokemon-display">
+                    <img id="imagenPokemon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Crect width='280' height='280' fill='url(%23gradient)' rx='20'/%3E%3Cdefs%3E%3ClinearGradient id='gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b6b;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%234ecdc4;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='white'%3EImagen del Pokémon%3C/text%3E%3C/svg%3E" alt="Imagen del Pokémon">
+                    <div class="pokemon-info">
+                        <p id="pokemonName">Busca un Pokémon para ver su imagen</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="pie-pagina">
+            <p>
+                <strong class="has-text-light">Sitio Web de Felipe</strong>
+            </p>
+            <p>© 2025 Todos los derechos reservados - Pokédex</p>
+        </div>
+    <script>
+        const GetPokemonAsync = async (id) => {
+            const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Pokémon no encontrado. Código HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return {
+                    nombre: data?.species?.name,
+                    imagen: data?.sprites?.front_default
+                };
+
+            } catch (error) {
+                console.error("Error al recibir el Pokémon:", error.message);
+                return null;
+            }
+        };
+
+        const boton = document.querySelector("#agregar");
+        const entrada = document.querySelector("#entrada");
+        const lista = document.querySelector("#lista");
+        const imagen = document.querySelector("#imagenPokemon");
+        const pokemonName = document.querySelector("#pokemonName");
+
+        const removeEmptyState = () => {
+            const emptyState = lista.querySelector('.empty-state');
+            if (emptyState) {
+                emptyState.remove();
+            }
+        };
+
+        boton.addEventListener("click", async () => {
+            const texto = entrada.value.trim();
+
+            if (texto === "") {
+                alert("Por favor ingresa un número válido");
+                return;
+            }
+
+            const numero = parseInt(texto);
+            if (numero < 1 || numero > 1010) {
+                alert("Por favor ingresa un número entre 1 y 1010");
+                return;
+            }
+
+            const resultado = await GetPokemonAsync(texto);
+
+            if (resultado) {
+                removeEmptyState();
+                
+                const nuevoItem = document.createElement("li");
+                nuevoItem.innerHTML = `<strong>#${texto}: ${resultado.nombre.charAt(0).toUpperCase() + resultado.nombre.slice(1)}</strong>`;
+                lista.appendChild(nuevoItem);
+
+                imagen.src = resultado.imagen;
+                imagen.alt = resultado.nombre;
+                pokemonName.textContent = `#${texto}: ${resultado.nombre.charAt(0).toUpperCase() + resultado.nombre.slice(1)}`;
+                
+                nuevoItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                alert("No se encontró ese Pokémon. Verifica el número e intenta nuevamente.");
+                imagen.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Crect width='280' height='280' fill='url(%23gradient)' rx='20'/%3E%3Cdefs%3E%3ClinearGradient id='gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b6b;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%234ecdc4;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='16' fill='white'%3EPokémon no encontrado%3C/text%3E%3C/svg%3E";
+                imagen.alt = "Pokémon no encontrado";
+                pokemonName.textContent = "Pokémon no encontrado";
+            }
+
+            entrada.value = "";
+            entrada.focus();
+        });
+
+        entrada.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                boton.click();
+            }
+        });
+
+        entrada.focus();
+    </script>
+</body>
+</html>

@@ -1,9 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Juego de Figuritas</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
   <style>
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 30px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-bar {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-item {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 8px 15px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .user-photo {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .page-title {
+      color: white;
+      font-size: 1.2em;
+      text-align: right;
+      font-weight: bold;
+      white-space: nowrap;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      margin: 0;
+      padding: 0;
+      margin-left: auto;
+      padding-top: 10px;
+    }
+
     body {
       font-family: "Poppins", Arial, sans-serif;
       background: #000;
@@ -159,6 +221,19 @@
       text-shadow: 0 0 20px #ff0000, 0 0 40px #b30000, 0 0 60px #ff1a1a;
       animation: brillar 1.5s infinite alternate;
     }
+
+    .footer {
+      text-align: center;
+      color: white;
+      margin-top: 40px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      font-weight: bold;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
     #felicidades {
      display: none;
      text-align: center;
@@ -200,6 +275,18 @@
     }
   </style>
 </head>
+<div class="header">
+    <div class="nav-bar">
+        <a href="index.html" class="nav-item">
+            <img src="https://i.ibb.co/Z1x0QpDD/feli-yjack.jpg" alt="Feli&Jack" class="user-photo">
+            Inicio
+        </a>
+        <a href="album.html" class="nav-item">📷 Álbum</a>
+        <a href="musica.html" class="nav-item">🎵 Música</a>
+        <a href="pokemon.html" class="nav-item">⚡ Pokémon</a>
+    </div>
+    <h1 class="page-title">Diseño de Página de Felipe &nbsp;  2025</h1>
+</div>
 <body>
   <h1>📖 Álbum de Figuritas</h1>
   <div class="imagen-album">
@@ -384,5 +471,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
   </script>
+  <footer class="footer">
+    <p>
+      <strong class="has-text-light">Sitio Web de Felipe</strong>
+    </p>
+    <p>© 2025 Todos los derechos reservados</p>
+  </footer>
 </body>
 </html> 
